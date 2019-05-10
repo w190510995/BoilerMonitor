@@ -2,7 +2,7 @@
 #Version: V 1.0
 author: 'WangSheng'
 date: '2019/5/10 22:00'
-from src.OpcHandle.Dao.GetOpcData import GetDataFromOpc
+from src.OpcHandle.Dao.GetOpcDataDao import GetDataFromOpc
 
 
 def OpcAreaDataService():

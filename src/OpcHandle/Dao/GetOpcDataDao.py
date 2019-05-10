@@ -16,6 +16,3 @@ def GetDataFromOpc():
     retult = requests.get(OpcServer_API).json()
 
     return  retult
-
-if __name__ == '__main__':
-    GetDataFromOpc()
