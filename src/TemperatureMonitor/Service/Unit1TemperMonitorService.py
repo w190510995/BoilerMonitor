@@ -11,10 +11,12 @@ from src.Config.Unit1GroupConfig import LowerWaterWall_1,UpperWaterWall_1,\
     #1机组壁温监控
 """
 
-def Monitor(opcData):
+def Monitor(opcData,CurveFunctions):
+    #各区域数据
     LowerWaterWall_data = opcData[LowerWaterWall_1]
     UpperWaterWall_data = opcData[UpperWaterWall_1]
     HighTemperatureSuperheater45_data = opcData[HighTemperatureSuperheater45_Area_1]
+
     print()
 
 

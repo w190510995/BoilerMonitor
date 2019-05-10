@@ -3,9 +3,8 @@
 author: 'WangSheng'
 date: '2019/3/21 14:29'
 
-import matplotlib.pyplot as plt
-import numpy as np
-from src.Model.TempreturePointFit import TempreturePointFitClass
+
+from src.Model.Dao.TempreturePointFit import TempreturePointFitClass
 from src.Config import ModelData
 
 
