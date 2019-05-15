@@ -10,7 +10,7 @@ from src.TemperatureMonitor.Dao.DataHandleDao import TemperEstimate
 
 
 
-def MonitorUnit1(opcData,CurveFunctions,presure,fixedValueFunctions=[]):
+def MonitorUnit1(opcData,CurveFunctions,presure,redisClient,fixedValueFunctions=[]):
 
     """
         壁温监控
@@ -21,6 +21,7 @@ def MonitorUnit1(opcData,CurveFunctions,presure,fixedValueFunctions=[]):
         fixedValueFunctions['LowerWaterWall'], #折线函数
         presure, #管内压力
         LowerWaterWall_1,#监控区域
+        redisClient,
     )
 
 

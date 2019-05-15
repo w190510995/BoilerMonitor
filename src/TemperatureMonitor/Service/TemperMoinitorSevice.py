@@ -7,20 +7,21 @@ from src.TemperatureMonitor.Service.Unit1TemperMonitorService import MonitorUnit
 from src.OpcHandle.Service.AreaRealDataServer import OpcAreaDataService
 from src.Model.Service.ModInitService import TempModelInit
 from src.Model.Service.FixedValueServerce import LowerWaterWall,UpperWaterWall
-
+from src.RedisHandle.Service.RedisClientService import RedisClient
 
 
 def MonitorAllUnit():
     """
     #1、#2机组壁温监控
     """
+    redisClient = RedisClient()
     ALLAreaData = OpcAreaDataService()  # 获得所有区域OPC数据
     CurveFunctions = TempModelInit()  #各个区域，动态报警定值生成折线函数
     FixedValueFunctions ={
         'LowerWaterWall':LowerWaterWall,
         'UpperWaterWall1':UpperWaterWall,
     }
-    MonitorUnit1(ALLAreaData,CurveFunctions,20,FixedValueFunctions)
+    MonitorUnit1(ALLAreaData,CurveFunctions,20,redisClient,FixedValueFunctions)
 
 
 if __name__ == '__main__':
