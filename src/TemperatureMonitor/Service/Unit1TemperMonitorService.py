@@ -4,20 +4,38 @@ author: 'WangSheng'
 date: '2019/5/10 22:36'
 from src.Config.Unit1GroupConfig import LowerWaterWall_1,UpperWaterWall_1,\
     HighTemperatureSuperheater45_Area_1
+from src.TemperatureMonitor.Dao.DataHandleDao import TemperEstimate
 
 
 
-"""
-    #1机组壁温监控
-"""
 
-def Monitor(opcData,CurveFunctions):
-    #各区域数据
-    LowerWaterWall_data = opcData[LowerWaterWall_1]
-    UpperWaterWall_data = opcData[UpperWaterWall_1]
-    HighTemperatureSuperheater45_data = opcData[HighTemperatureSuperheater45_Area_1]
 
-    print()
+def MonitorUnit1(opcData,CurveFunctions,presure):
+
+    """
+        壁温监控
+    """
+    #下部水冷壁
+    TemperEstimate(
+        opcData[LowerWaterWall_1], #opc数据
+        CurveFunctions[LowerWaterWall_1], #折线函数
+        presure, #管内压力
+        LowerWaterWall_1,#监控区域
+    )
+    # 上部水冷壁
+    TemperEstimate(
+        opcData[UpperWaterWall_1],
+        CurveFunctions[UpperWaterWall_1],
+        presure,
+        UpperWaterWall_1,
+    )
+    # 下部水冷壁
+    TemperEstimate(
+        opcData[HighTemperatureSuperheater45_Area_1],
+        CurveFunctions[HighTemperatureSuperheater45_Area_1],
+        presure,
+        HighTemperatureSuperheater45_Area_1,
+    )
 
 
 
