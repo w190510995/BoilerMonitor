@@ -10,7 +10,7 @@ from src.TemperatureMonitor.Dao.DataHandleDao import TemperEstimate
 
 
 
-def MonitorUnit1(opcData,CurveFunctions,presure):
+def MonitorUnit1(opcData,CurveFunctions,presure,fixedValueFunctions=[]):
 
     """
         壁温监控
@@ -18,24 +18,26 @@ def MonitorUnit1(opcData,CurveFunctions,presure):
     #下部水冷壁
     TemperEstimate(
         opcData[LowerWaterWall_1], #opc数据
-        CurveFunctions[LowerWaterWall_1], #折线函数
+        fixedValueFunctions['LowerWaterWall'], #折线函数
         presure, #管内压力
         LowerWaterWall_1,#监控区域
     )
-    # 上部水冷壁
-    TemperEstimate(
-        opcData[UpperWaterWall_1],
-        CurveFunctions[UpperWaterWall_1],
-        presure,
-        UpperWaterWall_1,
-    )
-    # 下部水冷壁
-    TemperEstimate(
-        opcData[HighTemperatureSuperheater45_Area_1],
-        CurveFunctions[HighTemperatureSuperheater45_Area_1],
-        presure,
-        HighTemperatureSuperheater45_Area_1,
-    )
+
+
+    # # 上部水冷壁
+    # TemperEstimate(
+    #     opcData[UpperWaterWall_1],
+    #     fixedValueFunctions['UpperWaterWall1'],
+    #     presure,
+    #     UpperWaterWall_1,
+    # )
+    # # 高温过热器45
+    # TemperEstimate(
+    #     opcData[HighTemperatureSuperheater45_Area_1],
+    #     CurveFunctions['highTemperatureSuperheaterModle45'],
+    #     presure,
+    #     HighTemperatureSuperheater45_Area_1,
+    # )
 
 
 

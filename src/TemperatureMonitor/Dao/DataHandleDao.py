@@ -90,6 +90,7 @@ def  TemperEstimate(data,curveFun,presure,area):
     :param presure: 当前压力
     :param area:  当前处理的区域
     """
+
     thresholdValue  = round(curveFun(presure),2)  #生成报警定值
     # 从opc中获取 单条数据
     for item in data:
