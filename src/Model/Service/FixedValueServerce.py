@@ -9,12 +9,12 @@ def LowerWaterWall(temp):
     下部水冷壁报警定值
     :return:
     """
-    return 500
+    return 993
 
 def UpperWaterWall(temp):
     """
     上部部水冷壁报警定值
     :return:
     """
-    return 490
+    return 1000
 

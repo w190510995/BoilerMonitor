@@ -17,14 +17,16 @@ def MonitorAllUnit():
     redisClient = RedisClient()
     ALLAreaData = OpcAreaDataService()  # 获得所有区域OPC数据
     CurveFunctions = TempModelInit()  #各个区域，动态报警定值生成折线函数
-    FixedValueFunctions ={
+
+    FixedValueFunctions ={ #固定定值
+
         'LowerWaterWall':LowerWaterWall,
         'UpperWaterWall1':UpperWaterWall,
+
     }
     MonitorUnit1(ALLAreaData,CurveFunctions,20,redisClient,FixedValueFunctions)
 
 
 if __name__ == '__main__':
     MonitorAllUnit()
-    print()
 

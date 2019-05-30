@@ -15,7 +15,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from src.MainTask import StartMonitor
 
 urlpatterns = [
     path('admin/', admin.site.urls),
 ]
+
+#开启背景服务
+StartMonitor()
