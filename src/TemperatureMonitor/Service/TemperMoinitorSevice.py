@@ -10,14 +10,17 @@ from src.Model.Service.FixedValueServerce import LowerWaterWallModle,UpperWaterW
 from src.RedisHandle.Service.RedisClientService import RedisClient
 from src.Config.TagGroupConfig import LowerWaterWall,UpperWaterWall
 from src.Config.ThreadConfig import OverTempCycl
+from src.Config.OpreaterConfig import ConfirmInterval
+from src.TemperatureMonitor.Service.ComfirmDleteService import UpdateStatus
 import time
 
+RedisClient = RedisClient()
 
 def MonitorAllUnit():
     """
     #1、#2机组壁温监控
     """
-    redisClient = RedisClient()
+
     CurveFunctions = TempModelInit()  #各个区域，动态报警定值生成折线函数
 
     FixedValueFunctions ={ #固定定值函数
@@ -29,7 +32,19 @@ def MonitorAllUnit():
     #开启监视内容
     while True:
         ALLAreaData = OpcAreaDataService()  # 获得所有区域OPC数据
-        OverTemperatureMonitor(ALLAreaData,CurveFunctions,20,redisClient,FixedValueFunctions)
+        OverTemperatureMonitor(ALLAreaData,CurveFunctions,20,RedisClient,FixedValueFunctions)
         time.sleep(OverTempCycl) #扫描间隔
+
+
+def ComfirmDelet():
+    """
+        重置 status 为 1
+        重新开始报警
+    """
+
+    while True:
+        UpdateStatus(RedisClient)
+        time.sleep(ConfirmInterval)  # 扫描间隔
+
 
 

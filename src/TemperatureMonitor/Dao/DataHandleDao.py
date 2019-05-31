@@ -31,12 +31,60 @@ def  TemperEstimate(data,curveFun,presure,area,redisClient):
         if tagValue < 0.01:  # 防止数据为负值
             tagValue = 0
 
-        if tagValue >= thresholdValue: #超过定值，存入redis 或者存入DB
+        if tagValue >= thresholdValue: #超过定值，存入redis 或者存入DB,同时并报警
             DataHandle(tagName, tagValue, tagDesc, thresholdValue, area)
 
-        elif  alermValue<  tagValue < thresholdValue : #达到报警定值，进行报警
+        if tagValue >= alermValue:   #达到报警条件
+            DataAlermHandle(tagName, tagValue, tagDesc, alermValue,thresholdValue, redisClient)
 
-            pass
+
+
+
+
+def DataAlermHandle(tagName, tagValue, tagDesc, alermValue,thresholdValue, redisClient):
+    """
+        数据超过报警值，存入redis（超过记录定值不再一个实例）
+    :param tagName:
+    :param tagValue:
+    :param tagDesc:
+    :param alermValue:
+    :param thresholdValue:
+    :param area:
+    :param redisClient:
+    """
+    tagCachStatus = redisClient.exists(tagName)  # 1.存在   0.不存在
+    tagCachData = redisClient.hgetall(tagName)
+    tagDataStatus='0'
+
+    if tagCachData:
+        tagDataStatus = str(tagCachData[b'status'], encoding="utf8") #该条记录是否被确认
+
+    alermData = {
+        'tagValue':tagValue,
+        'tagDesc':tagDesc,
+        'alermValue':alermValue,
+        'status':'1',
+    }
+
+
+    if alermValue < tagValue < thresholdValue: #在报警范围内
+
+        if tagCachStatus == 0: #redis中无缓存，新建记录
+            redisClient.hmset(tagName,alermData)
+        elif tagCachStatus == 1:#redis中有缓存，新建记录
+            if tagDataStatus=='1':  #报警未确认，则继续更新
+                redisClient.hmset(tagName,alermData) #更新记录
+
+
+
+    elif tagValue<alermValue: #未在报警范围，删除报警信息
+
+        if tagCachStatus == 1: #数据存在，则删除
+            redisClient.delete(tagName)
+
+
+
+
 
 
 

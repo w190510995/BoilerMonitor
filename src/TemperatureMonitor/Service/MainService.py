@@ -4,7 +4,8 @@ author: 'WangSheng'
 date: '2019/5/10 22:30'
 
 import  threading,time
-from src.TemperatureMonitor.Service.TemperMoinitorSevice import MonitorAllUnit
+from src.TemperatureMonitor.Service.TemperMoinitorSevice import MonitorAllUnit,\
+    ComfirmDelet
 
 """
     #1、#2机组壁温、温差报警监控
@@ -16,8 +17,12 @@ def StartThread():
 
     """
     #设置线程
-    overTemp = threading.Thread(target=MonitorAllUnit) #壁温监控线程
 
+    # 壁温监控线程
+    overTemp = threading.Thread(target=MonitorAllUnit)
+    # 定期清理运行人员确认的壁温报警点，使得该点可以再次报警
+    comfirmAlerm = threading.Thread(target=ComfirmDelet)
 
     #开启线程
     overTemp.start()
+    comfirmAlerm.start()
