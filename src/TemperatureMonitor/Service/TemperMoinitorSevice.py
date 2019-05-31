@@ -16,6 +16,8 @@ import time
 
 RedisClient = RedisClient()
 
+
+
 def MonitorAllUnit():
     """
     #1、#2机组壁温监控
@@ -34,6 +36,8 @@ def MonitorAllUnit():
         ALLAreaData = OpcAreaDataService()  # 获得所有区域OPC数据
         OverTemperatureMonitor(ALLAreaData,CurveFunctions,20,RedisClient,FixedValueFunctions)
         time.sleep(OverTempCycl) #扫描间隔
+
+
 
 
 def ComfirmDelet():
