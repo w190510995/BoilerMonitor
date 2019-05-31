@@ -4,17 +4,17 @@ author: 'WangSheng'
 date: '2019/5/15 16:20'
 
 
-def LowerWaterWall(temp):
+def LowerWaterWallModle(temp,team2):
     """
     下部水冷壁报警定值
     :return:
     """
-    return 993
+    return 680
 
-def UpperWaterWall(temp):
+def UpperWaterWallModle(temp,team2):
     """
     上部部水冷壁报警定值
     :return:
     """
-    return 1000
+    return 682
 

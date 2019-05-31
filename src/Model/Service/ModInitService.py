@@ -6,6 +6,12 @@ date: '2019/3/21 14:29'
 
 from src.Model.Dao.TempreturePointFit import TempreturePointFitClass
 from src.Config import ModelData
+from src.Config.TagGroupConfig import EconomizerExport,ProofExport,\
+    HorizontalFlueSideWall,RearShaftWallTube38,\
+    RearShaftWallTube51,LowTemperatureSuperheater,\
+    PlatenSuperheater45,PlatenSuperheater51,\
+    HighTemperatureSuperheater45,HighTemperatureSuperheater51,\
+    LowTemperatureReheater,HighTemperatureReheater
 
 
 #将各个区域的模型初始化
@@ -50,18 +56,18 @@ def TempModelInit():
     highTemperatureReheaterModle = TempreturePointFitClass(ModelData.x12, ModelData.y12)
 
     return {
-        'economizerExportModle':economizerExportModle,
-        'proofExportModle': proofExportModle,
-        'horizontalFlueSideWalltModle': horizontalFlueSideWalltModle,
-        'rearShaftWallTubeModle38': rearShaftWallTubeModle38,
-        'rearShaftWallTubeModle51': rearShaftWallTubeModle51,
-        'lowTemperatureSuperheaterModle': lowTemperatureSuperheaterModle,
-        'platenSuperheaterModle45': platenSuperheaterModle45,
-        'platenSuperheaterModle51': platenSuperheaterModle51,
-        'highTemperatureSuperheaterModle45': highTemperatureSuperheaterModle45,
-        'highTemperatureSuperheaterModle51': highTemperatureSuperheaterModle51,
-        'lowTemperatureReheaterModle': lowTemperatureReheaterModle,
-        'highTemperatureReheaterModle': highTemperatureReheaterModle,
+        EconomizerExport:economizerExportModle,
+        ProofExport: proofExportModle,
+        HorizontalFlueSideWall: horizontalFlueSideWalltModle,
+        RearShaftWallTube38: rearShaftWallTubeModle38,
+        RearShaftWallTube51: rearShaftWallTubeModle51,
+        LowTemperatureSuperheater: lowTemperatureSuperheaterModle,
+        PlatenSuperheater45: platenSuperheaterModle45,
+        PlatenSuperheater51: platenSuperheaterModle51,
+        HighTemperatureSuperheater45: highTemperatureSuperheaterModle45,
+        HighTemperatureSuperheater51: highTemperatureSuperheaterModle51,
+        LowTemperatureReheater: lowTemperatureReheaterModle,
+        HighTemperatureReheater: highTemperatureReheaterModle,
     }
 
 
