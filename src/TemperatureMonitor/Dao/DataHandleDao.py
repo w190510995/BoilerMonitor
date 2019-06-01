@@ -31,11 +31,12 @@ def  TemperEstimate(data,curveFun,presure,area,redisClient):
         if tagValue < 0.01:  # 防止数据为负值
             tagValue = 0
 
-        if tagValue >= thresholdValue: #超过定值，存入redis 或者存入DB,同时并报警
-            DataHandle(tagName, tagValue, tagDesc, thresholdValue, area)
 
-        if tagValue >= alermValue:   #达到报警条件
-            DataAlermHandle(tagName, tagValue, tagDesc, alermValue,thresholdValue, redisClient)
+         #超过定值，存入redis 或者存入DB,同时并报警
+        DataHandle(tagName, tagValue, tagDesc, thresholdValue, area)
+
+        #达到报警条件
+        DataAlermHandle(tagName, tagValue, tagDesc, alermValue,thresholdValue, redisClient)
 
 
 
@@ -56,6 +57,8 @@ def DataAlermHandle(tagName, tagValue, tagDesc, alermValue,thresholdValue, redis
     tagCachData = redisClient.hgetall(tagName)
     tagDataStatus='0'
 
+
+
     if tagCachData:
         tagDataStatus = str(tagCachData[b'status'], encoding="utf8") #该条记录是否被确认
 
@@ -67,7 +70,7 @@ def DataAlermHandle(tagName, tagValue, tagDesc, alermValue,thresholdValue, redis
     }
 
 
-    if alermValue < tagValue < thresholdValue: #在报警范围内
+    if tagValue >= alermValue  : #在报警范围内
 
         if tagCachStatus == 0: #redis中无缓存，新建记录
             redisClient.hmset(tagName,alermData)
@@ -77,7 +80,7 @@ def DataAlermHandle(tagName, tagValue, tagDesc, alermValue,thresholdValue, redis
 
 
 
-    elif tagValue<alermValue: #未在报警范围，删除报警信息
+    elif tagValue < alermValue: #未在报警范围，删除报警信息
 
         if tagCachStatus == 1: #数据存在，则删除
             redisClient.delete(tagName)
@@ -128,9 +131,11 @@ def DataHandle(name,value,tagDesc,thresholdValuet,area):
     else:
 
         if get_value_catch['status'] == 1:  # 1：报警未结束
-            if value >= thresholdValuet:  # 大于定值 更新缓存maxvalue数据
-                maxValue = get_value_catch['maxValue']
 
+            if value >= thresholdValuet:  # 大于定值 更新缓存maxvalue数据
+
+                maxValue = get_value_catch['maxValue']
+                get_value_catch['thresholdValuet'] = thresholdValuet  #
                 if value > maxValue:
                     get_value_catch['maxValue'] = value  # 更新状态
 
@@ -138,6 +143,7 @@ def DataHandle(name,value,tagDesc,thresholdValuet,area):
                 cache.set(name, get_value_catch, timeout=None)  # 更新数据到redis
 
             else:
+
                 get_value_catch['status'] = 0  # 更新状态
                 get_value_catch['endDate'] = datetime.now()  # 结束日期
                 cache.set(name, get_value_catch, timeout=None)  # 更新数据到redis
@@ -165,6 +171,7 @@ def DataHandle(name,value,tagDesc,thresholdValuet,area):
                 tiemDiff=(endTime1[0] - beginTime1[0]).seconds)
 
             persistence.save()  # 保存到数据库
+
             cache.delete(name)  # 报警结束 删除缓存
 
 

@@ -5,7 +5,7 @@ date: '2019/5/10 22:36'
 
 
 from src.TemperatureMonitor.Dao.DataHandleDao import TemperEstimate
-
+from src.TemperatureMonitor.Dao.GetPresureDao import GetSteamPressure
 
 
 def Unit1Monitor(opcData,CurveFunctions,presure,redisClient,fixedValueFunctions):
@@ -23,17 +23,18 @@ def Unit1Monitor(opcData,CurveFunctions,presure,redisClient,fixedValueFunctions)
         TemperEstimate(
             opcData[area + '_1'],  # opc数据   例如  'UpperWaterWall'  + '_1'
             curveFun,  # 折线函数
-            presure,  # 管内压力
+            presure[area + '_1'],  # 管内压力
             area + '_1',  # 监控区域   例如  'UpperWaterWall'  + '_1'
             redisClient,
         )
 
     # 动态定值 监控
     for area, curveFun in CurveFunctions.items():
+
         TemperEstimate(
             opcData[area + '_1'],
             curveFun.curveFunction,
-            presure,
+            presure[area + '_1'],
             area + '_1',
             redisClient,
         )
@@ -54,7 +55,7 @@ def Unit2Monitor(opcData,CurveFunctions,presure,redisClient,fixedValueFunctions)
         TemperEstimate(
             opcData[area+'_2'], #opc数据   例如  'UpperWaterWall'  + '_2'
             curveFun, #折线函数
-            presure, #管内压力
+            presure[area + '_1'], #管内压力
             area+'_2',#监控区域   例如  'UpperWaterWall'  + '_2'
             redisClient,
         )
@@ -64,7 +65,7 @@ def Unit2Monitor(opcData,CurveFunctions,presure,redisClient,fixedValueFunctions)
         TemperEstimate(
             opcData[area+'_2'],
             curveFun.curveFunction,
-            presure,
+            presure[area + '_1'],
             area+'_2',
             redisClient,
         )
@@ -74,13 +75,15 @@ def Unit2Monitor(opcData,CurveFunctions,presure,redisClient,fixedValueFunctions)
 
 
 
-def OverTemperatureMonitor(opcData,CurveFunctions,presure,redisClient,fixedValueFunctions):
+def OverTemperatureMonitor(opcData,CurveFunctions,redisClient,fixedValueFunctions):
 
     """
         #1\#2 超温监控
     """
-    Unit1Monitor(opcData,CurveFunctions,presure,redisClient,fixedValueFunctions) #  1号炉
-    # Unit2Monitor(opcData,CurveFunctions,presure,redisClient,fixedValueFunctions) #  2号炉
+    PressureUnit_1 = GetSteamPressure(opcData,'1')
+    # PressureUnit_2 = GetSteamPressure(opcData, '2')
+    Unit1Monitor(opcData,CurveFunctions,PressureUnit_1,redisClient,fixedValueFunctions) #  1号炉
+    # Unit2Monitor(opcData,CurveFunctions,PressureUnit_2,redisClient,fixedValueFunctions) #  2号炉
 
 
 

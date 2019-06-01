@@ -34,7 +34,7 @@ def MonitorAllUnit():
     #开启监视内容
     while True:
         ALLAreaData = OpcAreaDataService()  # 获得所有区域OPC数据
-        OverTemperatureMonitor(ALLAreaData,CurveFunctions,20,RedisClient,FixedValueFunctions)
+        OverTemperatureMonitor(ALLAreaData,CurveFunctions,RedisClient,FixedValueFunctions)
         time.sleep(OverTempCycl) #扫描间隔
 
 
